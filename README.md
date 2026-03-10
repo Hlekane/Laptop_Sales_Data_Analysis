@@ -1,4 +1,4 @@
-# Laptop Sales Data Analysis 8
+# Laptop Sales Data Analysis
 
 ## Project overview
 This project analyzes a laptop sales dataset to extract business insights using SQL. The objective is to demonstrate how structured data analysis can support data-driven decision-making in retail and technology sales environments.
