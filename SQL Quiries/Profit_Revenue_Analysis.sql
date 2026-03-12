@@ -11,6 +11,12 @@ SELECT Top 2*
 SELECT SUM(Sale_Price) AS Total_Revenue
 FROM Laptop_Sales
 
+--Which pc generates the most revenue?
+Select Top 1 PC_Make, 
+SUM(Sale_Price) as Most_Revenue
+	From Laptop_Sales 
+	Group by PC_Make
+	Order by Most_Revenue Desc
 -- 12. Calculate total profit (SUM of Sale Price - Cost Price).
 
 SELECT SUM(Sale_Price-Cost_Price) AS Total_Profit

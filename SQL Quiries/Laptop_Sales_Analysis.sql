@@ -44,6 +44,11 @@ Select Sum(Convert(Purchase_date - Ship_Date) Date)
 DATEDIFF(day, MIN(Purchase_Date), max(Ship_Date)) / nullif(Total-1,0) as Avg_Days
 	From Laptop_Sales
 
+Select AVG(DateDiFF(DAY, 
+				COnvert(Datetime,Purchase_Date,
+				Cast(Datetime, Ship_Date
+				From Laptop_Sales
+
 -- 27. Determine which Sales Person Department generates the highest revenue.
 
 Select Top 1 Sales_Person_Department, MAX(Sale_Price) as Highest_Rev_generation
