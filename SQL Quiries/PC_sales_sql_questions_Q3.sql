@@ -38,11 +38,24 @@ Select Distinct Top 100 PC_Model, MAX(Sale_Price) as PC_model_with_max_saleprice
 
 -- 26. Calculate the average number of days between Purchase Date and Ship Date.
 
-Select Sum(Convert(Purchase_date - Ship_Date) Date)
+
+Select Top 2*
 	From Laptop_Sales
 
-DATEDIFF(day, MIN(Purchase_Date), max(Ship_Date)) / nullif(Total-1,0) as Avg_Days
+Select 
+	Customer_Name,
+	PC_Make,
+	Purchase_Date,
+	Ship_Date
 	From Laptop_Sales
+
+	Select 
+		Customer_Name,
+		AVG(DATEDIFF(Day,
+		TRY_CONVERT (datetime,Purchase_date),
+		TRY_CONVERT (datetime,Ship_Date))) AS Number_of_Days_Avg
+		FROM Laptop_Sales
+		GROUP BY Customer_Name
 
 -- 27. Determine which Sales Person Department generates the highest revenue.
 
@@ -58,19 +71,16 @@ Select Storage_Capacity, SUM(Sale_Price-Discount_Amount) as Total_revenue_Storag
 	Group by Storage_Capacity
 -- 29. Identify sales where Sale Price is lower than PC Market Price.
 
-Select 
--- 30. Rank Sales Person Name by Total Sales per Employee using a window function.
+Select Sale_Price, PC_Market_Price
+	From Laptop_Sales
+	Where Sale_Price < PC_Market_Price
 
--- ADVANCED QUESTIONS
-
--- 21. Calculate profit per Shop Name.
--- 22. Calculate profit margin per sale ((Sale Price - Cost Price) / Sale Price).
--- 23. Determine which Continent has the highest total revenue.
--- 24. Calculate average Sale Price per RAM size.
--- 25. Find the PC Model with the highest Sale Price.
--- 26. Calculate the average number of days between Purchase Date and Ship Date.
--- 27. Determine which Sales Person Department generates the highest revenue.
--- 28. Calculate total revenue per Storage Capacity.
--- 29. Identify sales where Sale Price is lower than PC Market Price.
 -- 30. Rank Sales Person Name by Total Sales per Employee using a window function.
+-- The ranking window provide rankings of rows within a partition based on specific criteria (W3schools)
+
+Select Sales_Person_Name, Total_Sales_per_Employee,
+	Rank () Over ( Order by Total_Sales_Per_Employee Desc) Sales_Rank
+ From Laptop_Sales
+
+
 
