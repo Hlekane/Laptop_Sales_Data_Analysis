@@ -31,6 +31,7 @@ SELECT AVG(Discount_Amount) AS Average_Discount_Amount
 
 SELECT SUM(CAST(Finance_Amount AS bigint)) AS Total_Financial_Amount
 	FROM Laptop_Sales
+	
 
 -- 15. Find total revenue per PC Make.
 

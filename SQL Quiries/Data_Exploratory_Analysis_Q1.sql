@@ -64,3 +64,13 @@ SELECT Priority, COUNT(*) AS Sales_by_PriorityLevel
 SELECT COUNT(DISTINCT PC_Make) As PC_Make_Values
 	FROM Laptop_Sales
 
+-- 11. Find sales where the purchase date is after 2020
+
+SELECT *
+	FROM Laptop_Sales
+	WHERE Purchase_Date = '2022-01-01' 
+
+SELECT YEAR(Purchase_Date) AS Specific_Year
+	FROM Laptop_Sales
+	WHERE YEAR (Purchase_Date) = '2022'
+

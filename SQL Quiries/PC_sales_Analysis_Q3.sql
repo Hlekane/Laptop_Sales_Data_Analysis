@@ -9,13 +9,18 @@
 
 -- 21. Calculate profit per Shop Name.
 
-Select Shop_Name, SUM(Sale_Price-Discount_Amount) as Profit_Per_Shop_Name
+Select Shop_Name, SUM(Sale_Price-Cost_Price) as Profit_Per_Shop_Name
 	From Laptop_Sales
 	Group by Shop_Name
 
 -- 22. Calculate profit margin per sale ((Sale Price - Cost Price) / Sale Price).
+
 Select SUM(Sale_Price - Cost_Price / Sale_Price) as Profit_Margin_Per_Sale
 	From Laptop_Sales
+
+Select SUM(Sale_Price - Cost_Price / Sale_Price) * 100 as Profit_Margin_Per_Sale
+	From Laptop_Sales
+
 -- 23. Determine which Continent has the highest total revenue.
 
 Select distinct top 1 Continent, MAX(Sale_Price-Discount_Amount) as Continent_with_Highest_Revenue
@@ -37,11 +42,6 @@ Select Distinct Top 100 PC_Model, MAX(Sale_Price) as PC_model_with_max_saleprice
 	Order by PC_model_with_max_saleprice desc
 
 -- 26. Calculate the average number of days between Purchase Date and Ship Date.
-
-
-Select Top 2*
-	From Laptop_Sales
-
 Select 
 	Customer_Name,
 	PC_Make,
@@ -55,7 +55,17 @@ Select
 		TRY_CONVERT (datetime,Purchase_date),
 		TRY_CONVERT (datetime,Ship_Date))) AS Number_of_Days_Avg
 		FROM Laptop_Sales
-		GROUP BY Customer_Name
+		GROUP BY Customer_Name;
+
+Select Top 2*
+	From Laptop_Sales;
+
+
+SELECT AVG(DATEDIFF(DAY, 
+Try_Cast(Purchase_Date AS datetime), 
+Try_Cast(Ship_Date AS datetime))) AS Days_between_PD_SD
+FROM Laptop_Sales
+WHERE Purchase_Date is not Null and Ship_Date is not Null
 
 -- 27. Determine which Sales Person Department generates the highest revenue.
 
@@ -69,6 +79,7 @@ Select Top 1 Sales_Person_Department, MAX(Sale_Price) as Highest_Rev_generation
 Select Storage_Capacity, SUM(Sale_Price-Discount_Amount) as Total_revenue_Storage
 	From Laptop_Sales
 	Group by Storage_Capacity
+
 -- 29. Identify sales where Sale Price is lower than PC Market Price.
 
 Select Sale_Price, PC_Market_Price
@@ -81,6 +92,15 @@ Select Sale_Price, PC_Market_Price
 Select Sales_Person_Name, Total_Sales_per_Employee,
 	Rank () Over ( Order by Total_Sales_Per_Employee Desc) Sales_Rank
  From Laptop_Sales
+ Group by Sales_Person_Name
 
+ select Sales_Person_Name,
+    sum (Sale_Price) as Total_Sales,
+	rank() over (order by sum(Sale_Price ) DESC) as Rank_number
+	From Laptop_Sales
+	Group by Sales_Person_Name
 
-
+SELECT Sales_Person_Name,
+       Total_Sales_per_Employee,
+       RANK() OVER (ORDER BY Total_Sales_Per_Employee DESC) AS Sales_Rank
+	From Laptop_Sales
